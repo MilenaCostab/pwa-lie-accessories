@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7BBFBE" />
+  <meta name="description" content="Liê Accessories - Acessórios elegantes e sustentáveis" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+  <!-- Fonte elegante -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Liê Accessories</title>
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <div class="logo">
+        <span class="logo-texto">Liê</span>
+        <span class="logo-sub">ACCESSORIES</span>
+      </div>
+      <nav class="menu">
+        <a href="#inicio" class="menu-link">Início</a>
+        <a href="#produtos" class="menu-link">Produtos</a>
+        <a href="#sobre" class="menu-link">Sobre</a>
+      </nav>
+      <div class="cabecalho-acoes">
+        <button class="btn-carrinho" onclick="abrirCarrinho()">
+           <span id="quantidade-carrinho">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER PRINCIPAL -->
+  <section class="banner" id="inicio">
+    <div class="banner-conteudo">
+      <p class="banner-eyebrow">Nova coleção 2026</p>
+      <h1 class="banner-titulo">Acessórios que<br/>contam sua história</h1>
+      <p class="banner-descricao">Peças únicas, feitas com cuidado e elegância para cada momento especial.</p>
+      <a href="#produtos" class="btn-principal">Ver coleção</a>
+    </div>
+    <div class="banner-decoracao">
+      <div class="circulo-grande"></div>
+      <div class="circulo-pequeno"></div>
+    </div>
+  </section>
+
+  <!-- CATEGORIAS -->
+  <section class="categorias">
+    <div class="container">
+      <div class="categoria-card" onclick="filtrarCategoria('colares')">
+        <span class="categoria-icone">📿</span>
+        <span class="categoria-nome">Colares</span>
+      </div>
+      <div class="categoria-card" onclick="filtrarCategoria('brincos')">
+        <span class="categoria-icone">💎</span>
+        <span class="categoria-nome">Brincos</span>
+      </div>
+      <div class="categoria-card" onclick="filtrarCategoria('pulseiras')">
+        <span class="categoria-icone">✨</span>
+        <span class="categoria-nome">Pulseiras</span>
+      </div>
+      <div class="categoria-card" onclick="filtrarCategoria('aneis')">
+        <span class="categoria-icone">💍</span>
+        <span class="categoria-nome">Anéis</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="secao-produtos" id="produtos">
+    <div class="container">
+      <h2 class="secao-titulo">Nossa Coleção</h2>
+      <p class="secao-subtitulo">Peças selecionadas com amor para você</p>
+
+      <!-- Barra de busca -->
+      <div class="barra-busca">
+        <input type="text" id="campo-busca" placeholder="Buscar acessórios..." oninput="buscarProdutos()" />
+        <span class="icone-busca">🔍</span>
+      </div>
+
+      <!-- Status de carregamento -->
+      <div id="status-carregamento" class="status-carregamento">
+        <div class="spinner"></div>
+        <p>Carregando produtos...</p>
+      </div>
+
+      <!-- Grade de produtos -->
+      <div class="grade-produtos" id="grade-produtos"></div>
+
+      <!-- Mensagem sem produtos -->
+      <div id="sem-produtos" class="sem-produtos" style="display:none;">
+        <p> Nenhum produto encontrado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="secao-sobre" id="sobre">
+    <div class="container sobre-conteudo">
+      <div class="sobre-texto">
+        <h2 class="secao-titulo">Nossa história</h2>
+        <p>A Liê Accessories nasceu do amor por acessórios que expressam personalidade. Cada peça é cuidadosamente escolhida para trazer elegância e leveza ao seu dia a dia.</p>
+        <p>Acreditamos que um bom acessório não é apenas um enfeite — é uma extensão de quem você é.</p>
+      </div>
+      <div class="sobre-numeros">
+        <div class="numero-item">
+          <span class="numero">+200</span>
+          <span class="numero-label">Produtos</span>
+        </div>
+        <div class="numero-item">
+          <span class="numero">+1k</span>
+          <span class="numero-label">Clientes</span>
+        </div>
+        <div class="numero-item">
+          <span class="numero">5★</span>
+          <span class="numero-label">Avaliação</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARRINHO (painel lateral) -->
+  <div class="overlay-carrinho" id="overlay-carrinho" onclick="fecharCarrinho()"></div>
+  <div class="painel-carrinho" id="painel-carrinho">
+    <div class="carrinho-cabecalho">
+      <h3>Meu carrinho </h3>
+      <button class="btn-fechar" onclick="fecharCarrinho()">✕</button>
+    </div>
+    <div class="carrinho-itens" id="carrinho-itens">
+      <p class="carrinho-vazio">Seu carrinho está vazio.</p>
+    </div>
+    <div class="carrinho-rodape">
+      <div class="carrinho-total">
+        <span>Total:</span>
+        <span id="total-carrinho">R$ 0,00</span>
+      </div>
+      <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar compra</button>
+    </div>
+  </div>
+
+  <!-- MODAL DE PRODUTO -->
+  <div class="overlay-modal" id="overlay-modal" onclick="fecharModal()"></div>
+  <div class="modal-produto" id="modal-produto">
+    <button class="btn-fechar" onclick="fecharModal()">✕</button>
+    <div id="modal-conteudo"></div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="container">
+      <div class="logo">
+        <span class="logo-texto">Liê</span>
+        <span class="logo-sub">ACCESSORIES</span>
+      </div>
+      <p class="rodape-texto">© 2026 Liê Accessories. Todos os direitos reservados.</p>
+      <p class="rodape-texto">Feito com 💙 para o projeto de Comércio Eletrônico</p>
+    </div>
+  </footer>
+
+  <!-- AVISO OFFLINE -->
+  <div class="aviso-offline" id="aviso-offline">
+     Você está sem internet. Alguns produtos podem não carregar.
+  </div>
+
+  <!-- BOTÃO INSTALAR APP -->
+  <button class="btn-instalar" id="btn-instalar" style="display:none;" onclick="instalarApp()">
+    Instalar App
+  </button>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#7BBFBE" />
+  <title>Sem conexão - Liê Accessories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cor-principal: #7BBFBE;
+      --cor-fundo: #f7fbfb;
+      --cor-texto: #2c3e3e;
+      --cor-texto-claro: #6b8e8e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .logo-texto {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--cor-principal);
+    }
+
+    .logo-sub {
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      color: var(--cor-texto-claro);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 48px;
+    }
+
+    .icone-offline {
+      font-size: 5rem;
+      margin-bottom: 24px;
+      animation: pulsar 2s ease-in-out infinite;
+    }
+
+    @keyframes pulsar {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--cor-texto-claro);
+      max-width: 320px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .btn-tentar {
+      background: var(--cor-principal);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Lato', sans-serif;
+      transition: background 0.3s;
+    }
+
+    .btn-tentar:hover {
+      background: #5a9e9d;
+    }
+
+    .dica {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: var(--cor-texto-claro);
+      border-top: 1px solid #d5e8e8;
+      padding-top: 24px;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-texto">Liê</div>
+  <span class="logo-sub">ACCESSORIES</span>
+
+
+  <h1>Sem conexão</h1>
+  <p>Parece que você está offline. Verifique sua conexão com a internet e tente novamente.</p>
+
+  <button class="btn-tentar" onclick="window.location.reload()">
+    Tentar novamente
+  </button>
+
+  <p class="dica">
+     Se você já visitou a loja antes, alguns produtos podem estar disponíveis mesmo offline.
+  </p>
+</body>
+</html>
