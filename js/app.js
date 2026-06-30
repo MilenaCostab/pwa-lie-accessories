@@ -1,10 +1,4 @@
-// =============================================
-// LIÊACCESSORIES - PWA
-// app.js - Lógica principal do aplicativo
-// Projeto: Comércio Eletrônico
-// =============================================
 
-// --- CONFIGURAÇÃO DA API DO WOOCOMMERCE ---
 const CONFIG = {
   url_loja: 'http://localhost/wordpress',
   consumer_key: 'ck_35a0b59928422aa28db31610873aaf63576ca285',
@@ -12,14 +6,11 @@ const CONFIG = {
   produtos_por_pagina: 12,
 };
 
-// --- ESTADO DO APP ---
 let carrinho = [];
 let todos_os_produtos = [];
 let evento_instalacao = null;
 
-// =============================================
-// INICIALIZAÇÃO
-// =============================================
+
 document.addEventListener('DOMContentLoaded', () => {
   registrarServiceWorker();
   carregarProdutos();
@@ -28,9 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarCarrinhoDoStorage();
 });
 
-// =============================================
-// SERVICE WORKER
-// =============================================
+
 async function registrarServiceWorker() {
   if ('serviceWorker' in navigator) {
     try {
@@ -42,9 +31,7 @@ async function registrarServiceWorker() {
   }
 }
 
-// =============================================
-// CARREGAR PRODUTOS DA API DO WOOCOMMERCE
-// =============================================
+
 async function carregarProdutos() {
   mostrarCarregamento(true);
 
@@ -74,9 +61,7 @@ async function carregarProdutos() {
   }
 }
 
-// =============================================
-// RENDERIZAR PRODUTOS NA TELA
-// =============================================
+
 function renderizarProdutos(produtos) {
   const grade = document.getElementById('grade-produtos');
   const semProdutos = document.getElementById('sem-produtos');
@@ -121,9 +106,6 @@ function renderizarProdutos(produtos) {
   }).join('');
 }
 
-// =============================================
-// BUSCA E FILTRO DE PRODUTOS
-// =============================================
 function buscarProdutos() {
   const termoBusca = document.getElementById('campo-busca').value.toLowerCase();
 
@@ -148,9 +130,7 @@ function filtrarCategoria(categoria) {
   renderizarProdutos(produtosFiltrados.length > 0 ? produtosFiltrados : todos_os_produtos);
 }
 
-// =============================================
-// MODAL DE PRODUTO
-// =============================================
+
 function abrirModal(id_produto) {
   const produto = todos_os_produtos.find(p => p.id === id_produto);
   if (!produto) return;
@@ -189,9 +169,7 @@ function fecharModal() {
   document.getElementById('modal-produto').classList.remove('ativo');
 }
 
-// =============================================
-// CARRINHO DE COMPRAS
-// =============================================
+
 function adicionarAoCarrinho(id_produto) {
   const produto = todos_os_produtos.find(p => p.id === id_produto);
   if (!produto) return;
@@ -271,9 +249,7 @@ function finalizarCompra() {
   window.location.href = `${CONFIG.url_loja}/checkout/`;
 }
 
-// =============================================
-// PERSISTÊNCIA DO CARRINHO
-// =============================================
+
 function salvarCarrinhoNoStorage() {
   localStorage.setItem('carrinho_lie', JSON.stringify(carrinho));
 }
@@ -286,9 +262,6 @@ function carregarCarrinhoDoStorage() {
   }
 }
 
-// =============================================
-// CACHE DE PRODUTOS (modo offline)
-// =============================================
 function salvarProdutosNoCache(produtos) {
   localStorage.setItem('produtos_cache_lie', JSON.stringify(produtos));
   localStorage.setItem('produtos_cache_data', new Date().toISOString());
@@ -300,16 +273,14 @@ function carregarProdutosDoCache() {
     const produtos = JSON.parse(cache);
     todos_os_produtos = produtos;
     renderizarProdutos(produtos);
-    mostrarFeedback('⚠️ Exibindo produtos salvos (modo offline)');
+    mostrarFeedback(' Exibindo produtos salvos (modo offline)');
   } else {
     mostrarCarregamento(false);
     document.getElementById('sem-produtos').style.display = 'block';
   }
 }
 
-// =============================================
-// CONTROLE DE CONEXÃO
-// =============================================
+
 function verificarConexao() {
   const aviso = document.getElementById('aviso-offline');
 
@@ -327,9 +298,7 @@ function verificarConexao() {
   }
 }
 
-// =============================================
-// BOTÃO INSTALAR APP (PWA)
-// =============================================
+
 function configurarBotaoInstalar() {
   window.addEventListener('beforeinstallprompt', (evento) => {
     evento.preventDefault();
@@ -348,15 +317,13 @@ function instalarApp() {
   evento_instalacao.prompt();
   evento_instalacao.userChoice.then(resultado => {
     if (resultado.outcome === 'accepted') {
-      console.log('✅ Usuário aceitou instalar o app');
+      console.log('Usuário aceitou instalar o app');
     }
     evento_instalacao = null;
   });
 }
 
-// =============================================
-// FUNÇÕES AUXILIARES
-// =============================================
+
 function mostrarCarregamento(mostrar) {
   document.getElementById('status-carregamento').style.display = mostrar ? 'block' : 'none';
 }

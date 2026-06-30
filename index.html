@@ -6,11 +6,9 @@
   <meta name="theme-color" content="#7BBFBE" />
   <meta name="description" content="Liê Accessories - Acessórios elegantes e sustentáveis" />
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-  <!-- Fonte elegante -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
@@ -18,7 +16,6 @@
 </head>
 <body>
 
-  <!-- CABEÇALHO -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="logo">
@@ -32,13 +29,12 @@
       </nav>
       <div class="cabecalho-acoes">
         <button class="btn-carrinho" onclick="abrirCarrinho()">
-           <span id="quantidade-carrinho">0</span>
+           <span id="quantidade-carrinho">Carrinho</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- BANNER PRINCIPAL -->
   <section class="banner" id="inicio">
     <div class="banner-conteudo">
       <p class="banner-eyebrow">Nova coleção 2026</p>
@@ -52,7 +48,6 @@
     </div>
   </section>
 
-  <!-- CATEGORIAS -->
   <section class="categorias">
     <div class="container">
       <div class="categoria-card" onclick="filtrarCategoria('colares')">
@@ -70,35 +65,29 @@
     </div>
   </section>
 
-  <!-- PRODUTOS -->
   <section class="secao-produtos" id="produtos">
     <div class="container">
       <h2 class="secao-titulo">Nossa Coleção</h2>
       <p class="secao-subtitulo">Peças selecionadas com amor para você</p>
 
-      <!-- Barra de busca -->
       <div class="barra-busca">
         <input type="text" id="campo-busca" placeholder="Buscar acessórios..." oninput="buscarProdutos()" />
         <span class="icone-busca">🔍</span>
       </div>
 
-      <!-- Status de carregamento -->
       <div id="status-carregamento" class="status-carregamento">
         <div class="spinner"></div>
         <p>Carregando produtos...</p>
       </div>
 
-      <!-- Grade de produtos -->
       <div class="grade-produtos" id="grade-produtos"></div>
 
-      <!-- Mensagem sem produtos -->
       <div id="sem-produtos" class="sem-produtos" style="display:none;">
         <p> Nenhum produto encontrado.</p>
       </div>
     </div>
   </section>
 
-  <!-- SOBRE -->
   <section class="secao-sobre" id="sobre">
     <div class="container sobre-conteudo">
       <div class="sobre-texto">
@@ -108,7 +97,6 @@
     </div>
   </section>
 
-  <!-- CARRINHO (painel lateral) -->
   <div class="overlay-carrinho" id="overlay-carrinho" onclick="fecharCarrinho()"></div>
   <div class="painel-carrinho" id="painel-carrinho">
     <div class="carrinho-cabecalho">
@@ -127,14 +115,12 @@
     </div>
   </div>
 
-  <!-- MODAL DE PRODUTO -->
   <div class="overlay-modal" id="overlay-modal" onclick="fecharModal()"></div>
   <div class="modal-produto" id="modal-produto">
     <button class="btn-fechar" onclick="fecharModal()">✕</button>
     <div id="modal-conteudo"></div>
   </div>
 
-  <!-- RODAPÉ -->
   <footer class="rodape">
     <div class="container">
       <div class="logo">
@@ -142,16 +128,13 @@
         <span class="logo-sub">ACCESSORIES</span>
       </div>
       <p class="rodape-texto">© 2026 Liê Accessories. Todos os direitos reservados.</p>
-      <p class="rodape-texto">Feito com 💙 para o projeto de Comércio Eletrônico</p>
     </div>
   </footer>
 
-  <!-- AVISO OFFLINE -->
   <div class="aviso-offline" id="aviso-offline">
      Você está sem internet. Alguns produtos podem não carregar.
   </div>
 
-  <!-- BOTÃO INSTALAR APP -->
   <button class="btn-instalar" id="btn-instalar" style="display:none;" onclick="instalarApp()">
     Instalar App
   </button>

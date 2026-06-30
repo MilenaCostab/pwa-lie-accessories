@@ -1,12 +1,7 @@
-// =============================================
-// LIÊACCESSORIES - PWA
-// sw.js - Service Worker
-// Responsável pelo cache e funcionamento offline
-// =============================================
+
 
 const NOME_CACHE = 'lie-accessories-v1';
 
-// Arquivos salvos no cache ao instalar o app
 const ARQUIVOS_PARA_CACHE = [
   '/',
   '/index.html',
@@ -17,9 +12,7 @@ const ARQUIVOS_PARA_CACHE = [
   'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap',
 ];
 
-// =============================================
-// EVENTO: INSTALL
-// =============================================
+
 self.addEventListener('install', (evento) => {
   console.log('[SW] Instalando Service Worker...');
 
@@ -33,9 +26,7 @@ self.addEventListener('install', (evento) => {
   self.skipWaiting();
 });
 
-// =============================================
-// EVENTO: ACTIVATE
-// =============================================
+
 self.addEventListener('activate', (evento) => {
   console.log('[SW] Service Worker ativado!');
 
@@ -55,13 +46,11 @@ self.addEventListener('activate', (evento) => {
   self.clients.claim();
 });
 
-// =============================================
-// EVENTO: FETCH
-// =============================================
+
 self.addEventListener('fetch', (evento) => {
   const url = new URL(evento.request.url);
 
-  // Cache First para assets estáticos
+
   if (
     evento.request.destination === 'style' ||
     evento.request.destination === 'script' ||
@@ -72,13 +61,11 @@ self.addEventListener('fetch', (evento) => {
     return;
   }
 
-  // Network First para API do WooCommerce
   if (url.pathname.includes('/wp-json/wc/')) {
     evento.respondWith(estrategiaNetworkFirst(evento.request));
     return;
   }
 
-  // Network First com fallback offline para páginas HTML
   if (evento.request.mode === 'navigate') {
     evento.respondWith(estrategiaPaginas(evento.request));
     return;
@@ -87,9 +74,7 @@ self.addEventListener('fetch', (evento) => {
   evento.respondWith(fetch(evento.request));
 });
 
-// =============================================
-// ESTRATÉGIA: Cache First
-// =============================================
+
 async function estrategiaCacheFirst(requisicao) {
   const respostaCache = await caches.match(requisicao);
 
@@ -107,9 +92,7 @@ async function estrategiaCacheFirst(requisicao) {
   }
 }
 
-// =============================================
-// ESTRATÉGIA: Network First
-// =============================================
+
 async function estrategiaNetworkFirst(requisicao) {
   try {
     const respostaRede = await fetch(requisicao);
@@ -124,9 +107,7 @@ async function estrategiaNetworkFirst(requisicao) {
   }
 }
 
-// =============================================
-// ESTRATÉGIA: Páginas com fallback offline
-// =============================================
+
 async function estrategiaPaginas(requisicao) {
   try {
     return await fetch(requisicao);

@@ -1,10 +1,4 @@
-/* =============================================
-   LIÊACCESSORIES - PWA
-   Projeto: Comércio Eletrônico
-   Alunos: [Seus nomes aqui]
-   ============================================= */
 
-/* --- VARIÁVEIS DE COR E FONTE --- */
 :root {
   --cor-principal: #7BBFBE;
   --cor-principal-escura: #5a9e9d;
@@ -51,16 +45,13 @@ a {
   color: inherit;
 }
 
-/* --- CONTAINER CENTRAL --- */
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* =============================================
-   CABEÇALHO
-   ============================================= */
+
 .cabecalho {
   position: sticky;
   top: 0;
@@ -80,7 +71,6 @@ a {
   gap: 20px;
 }
 
-/* Logo */
 .logo {
   display: flex;
   flex-direction: column;
@@ -101,7 +91,6 @@ a {
   text-transform: uppercase;
 }
 
-/* Menu de navegação */
 .menu {
   display: flex;
   gap: 28px;
@@ -119,7 +108,6 @@ a {
   color: var(--cor-principal);
 }
 
-/* Botão carrinho */
 .btn-carrinho {
   background: var(--cor-destaque);
   border: 1px solid var(--cor-borda);
@@ -137,9 +125,7 @@ a {
   border-color: var(--cor-principal);
 }
 
-/* =============================================
-   BANNER PRINCIPAL
-   ============================================= */
+
 .banner {
   min-height: 480px;
   background: linear-gradient(135deg, #eef6f6 0%, #d5eaea 100%);
@@ -180,7 +166,6 @@ a {
   margin-bottom: 32px;
 }
 
-/* Botão principal */
 .btn-principal {
   display: inline-block;
   background-color: var(--cor-principal);
@@ -228,9 +213,7 @@ a {
   top: -60px;
 }
 
-/* =============================================
-   CATEGORIAS
-   ============================================= */
+
 .categorias {
   padding: 32px 0;
   background-color: var(--cor-branco);
@@ -277,9 +260,6 @@ a {
   text-transform: uppercase;
 }
 
-/* =============================================
-   SEÇÃO DE PRODUTOS
-   ============================================= */
 .secao-produtos {
   padding: 60px 0;
 }
@@ -297,7 +277,6 @@ a {
   font-size: 0.95rem;
 }
 
-/* Barra de busca */
 .barra-busca {
   position: relative;
   max-width: 420px;
@@ -330,14 +309,12 @@ a {
   font-size: 1rem;
 }
 
-/* Grade de produtos */
 .grade-produtos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
 }
 
-/* Card de produto */
 .card-produto {
   background: var(--cor-branco);
   border-radius: var(--borda-raio);
@@ -417,7 +394,6 @@ a {
   background: var(--cor-principal-escura);
 }
 
-/* Status de carregamento */
 .status-carregamento {
   text-align: center;
   padding: 60px 0;
@@ -445,9 +421,7 @@ a {
   font-size: 1.1rem;
 }
 
-/* =============================================
-   SEÇÃO SOBRE
-   ============================================= */
+
 .secao-sobre {
   background-color: var(--cor-fundo-secao);
   padding: 60px 0;
@@ -493,9 +467,7 @@ a {
   color: var(--cor-texto-claro);
 }
 
-/* =============================================
-   CARRINHO LATERAL
-   ============================================= */
+
 .overlay-carrinho {
   display: none;
   position: fixed;
@@ -567,7 +539,6 @@ a {
   padding: 40px 0;
 }
 
-/* Item no carrinho */
 .item-carrinho {
   display: flex;
   gap: 12px;
@@ -632,9 +603,7 @@ a {
   background: var(--cor-principal-escura);
 }
 
-/* =============================================
-   MODAL DE PRODUTO
-   ============================================= */
+
 .overlay-modal {
   display: none;
   position: fixed;
@@ -695,9 +664,6 @@ a {
   line-height: 1.7;
 }
 
-/* =============================================
-   RODAPÉ
-   ============================================= */
 .rodape {
   background: var(--cor-texto);
   color: rgba(255,255,255,0.7);
@@ -718,9 +684,7 @@ a {
   margin-top: 12px;
 }
 
-/* =============================================
-   AVISO OFFLINE
-   ============================================= */
+
 .aviso-offline {
   display: none;
   position: fixed;
@@ -740,9 +704,7 @@ a {
   display: block;
 }
 
-/* =============================================
-   BOTÃO INSTALAR APP
-   ============================================= */
+
 .btn-instalar {
   position: fixed;
   bottom: 20px;
@@ -766,9 +728,7 @@ a {
   transform: translateY(-2px);
 }
 
-/* =============================================
-   RESPONSIVIDADE - MOBILE
-   ============================================= */
+
 @media (max-width: 768px) {
   .menu {
     display: none;
