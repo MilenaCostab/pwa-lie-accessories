@@ -1,8 +1,5 @@
-
 const CONFIG = {
-  url_loja: 'http://localhost/wordpress',
-  consumer_key: 'ck_35a0b59928422aa28db31610873aaf63576ca285',
-  consumer_secret: 'cs_cba0df7992af7ea29543d191187b7384655fc36a',
+  url_loja: 'https://unmatched-implant-dress.ngrok-free.dev',
   produtos_por_pagina: 12,
 };
 
@@ -24,9 +21,9 @@ async function registrarServiceWorker() {
   if ('serviceWorker' in navigator) {
     try {
       const registro = await navigator.serviceWorker.register('sw.js');
-      console.log('✅ Service Worker registrado:', registro.scope);
+      console.log('Service Worker registrado:', registro.scope);
     } catch (erro) {
-      console.log('❌ Erro ao registrar Service Worker:', erro);
+      console.log('Erro ao registrar Service Worker:', erro);
     }
   }
 }
@@ -36,25 +33,32 @@ async function carregarProdutos() {
   mostrarCarregamento(true);
 
   try {
-    const url = `${CONFIG.url_loja}/wp-json/wc/v3/products` +
-      `?consumer_key=${CONFIG.consumer_key}` +
-      `&consumer_secret=${CONFIG.consumer_secret}` +
-      `&per_page=${CONFIG.produtos_por_pagina}` +
-      `&status=publish`;
 
-    const resposta = await fetch(url);
+    const resposta = await fetch(
+      ${CONFIG.url_loja}/wp-json/wc/store/v1/products
+    );
 
     if (!resposta.ok) {
-      throw new Error('Erro ao buscar produtos da API');
+      throw new Error("Erro ao buscar produtos");
     }
 
-    const produtos = await resposta.json();
-    todos_os_produtos = produtos;
-    renderizarProdutos(produtos);
-    salvarProdutosNoCache(produtos);
+    const produtosApi = await resposta.json();
+
+    todos_os_produtos = produtosApi.map(produto => ({
+      id: produto.id,
+      name: produto.name,
+      price: Number(produto.prices.price) / 100,
+      description: produto.description,
+      permalink: produto.permalink,
+      images: produto.images,
+      categories: produto.categories
+    }));
+
+    renderizarProdutos(todos_os_produtos);
+    salvarProdutosNoCache(todos_os_produtos);
 
   } catch (erro) {
-    console.log('⚠️ API indisponível, tentando cache local...', erro);
+    console.error(erro);
     carregarProdutosDoCache();
   } finally {
     mostrarCarregamento(false);
@@ -189,7 +193,7 @@ function adicionarAoCarrinho(id_produto) {
 
   atualizarCarrinho();
   salvarCarrinhoNoStorage();
-  mostrarFeedback('Produto adicionado ao carrinho! 🛍️');
+  mostrarFeedback('Produto adicionado ao carrinho! ');
 }
 
 function removerDoCarrinho(id_produto) {
@@ -246,7 +250,7 @@ function finalizarCompra() {
     alert('Seu carrinho está vazio!');
     return;
   }
-  window.location.href = `${CONFIG.url_loja}/checkout/`;
+  window.open(`${CONFIG.url_loja}/checkout`, "_blank");
 }
 
 
@@ -308,7 +312,7 @@ function configurarBotaoInstalar() {
 
   window.addEventListener('appinstalled', () => {
     document.getElementById('btn-instalar').style.display = 'none';
-    mostrarFeedback('App instalado com sucesso! 🎉');
+    mostrarFeedback('App instalado com sucesso! ');
   });
 }
 
