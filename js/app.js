@@ -1,5 +1,5 @@
 const CONFIG = {
-  url_loja: 'https://unmatched-implant-dress.ngrok-free.dev',
+  url_loja: 'http://192.168.0.7',
   produtos_por_pagina: 12,
 };
 
@@ -34,9 +34,9 @@ async function carregarProdutos() {
 
   try {
 
-    const resposta = await fetch(
-      ${CONFIG.url_loja}/wp-json/wc/store/v1/products
-    );
+  const resposta = await fetch(
+    `${CONFIG.url_loja}/wp-json/wc/store/v1/products`
+  );
 
     if (!resposta.ok) {
       throw new Error("Erro ao buscar produtos");
@@ -174,7 +174,43 @@ function fecharModal() {
 }
 
 
-function adicionarAoCarrinho(id_produto) {
+let nonceCache = null;
+
+async function getNonce() {
+  if (nonceCache) return nonceCache;
+
+  const resposta = await fetch(`${CONFIG.url_loja}/wp-json/wc/store/v1/cart`, {
+    credentials: 'include'
+  });
+
+  nonceCache = resposta.headers.get('Nonce');
+  return nonceCache;
+}
+
+async function adicionarAoCarrinhoWoo(id_produto, quantidade) {
+  try {
+    const resposta = await fetch(`${CONFIG.url_loja}/wp-json/wc/store/v1/cart/add-item`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Nonce': await getNonce(),
+      },
+      body: JSON.stringify({
+        id: id_produto,
+        quantity: quantidade
+      })
+    });
+
+    if (!resposta.ok) throw new Error('Erro ao adicionar no carrinho WooCommerce');
+
+    return await resposta.json();
+  } catch (erro) {
+    console.error('Erro ao sincronizar carrinho:', erro);
+  }
+}
+
+async function adicionarAoCarrinho(id_produto) {
   const produto = todos_os_produtos.find(p => p.id === id_produto);
   if (!produto) return;
 
@@ -192,11 +228,35 @@ function adicionarAoCarrinho(id_produto) {
   }
 
   atualizarCarrinho();
-  salvarCarrinhoNoStorage();
   mostrarFeedback('Produto adicionado ao carrinho! ');
+
+  await adicionarAoCarrinhoWoo(id_produto, 1);
+
+  salvarCarrinhoNoStorage();
+}
+
+async function removerDoCarrinhoWoo(woo_key) {
+  try {
+    const resposta = await fetch(`${CONFIG.url_loja}/wp-json/wc/store/v1/cart/remove-item`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Nonce': await getNonce(),
+      },
+      body: JSON.stringify({ key: woo_key })
+    });
+
+    if (!resposta.ok) throw new Error('Erro ao remover do carrinho WooCommerce');
+  } catch (erro) {
+    console.error('Erro ao remover do carrinho WooCommerce:', erro);
+  }
 }
 
 function removerDoCarrinho(id_produto) {
+  const item = carrinho.find(item => item.id === id_produto);
+  if (item && item.woo_key) removerDoCarrinhoWoo(item.woo_key);
+
   carrinho = carrinho.filter(item => item.id !== id_produto);
   atualizarCarrinho();
   salvarCarrinhoNoStorage();
@@ -245,14 +305,50 @@ function fecharCarrinho() {
   document.getElementById('painel-carrinho').classList.remove('ativo');
 }
 
-function finalizarCompra() {
+async function limparCarrinhoWoo() {
+  nonceCache = null;
+  await fetch(`${CONFIG.url_loja}/wp-json/wc/store/v1/cart/items`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      'Nonce': await getNonce(),
+    }
+  });
+  nonceCache = null;
+}
+
+async function finalizarCompra() {
   if (carrinho.length === 0) {
     alert('Seu carrinho está vazio!');
     return;
   }
-  window.open(`${CONFIG.url_loja}/checkout`, "_blank");
-}
 
+  mostrarFeedback('Preparando seu pedido...');
+
+  try {
+    await limparCarrinhoWoo();
+
+    for (const item of carrinho) {
+      await fetch(`${CONFIG.url_loja}/wp-json/wc/store/v1/cart/add-item`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Nonce': await getNonce(),
+        },
+        body: JSON.stringify({
+          id: item.id,
+          quantity: item.quantidade
+        })
+      });
+    }
+
+    window.location.href = `${CONFIG.url_loja}/checkout`;
+  } catch (erro) {
+    console.error('Erro ao sincronizar carrinho:', erro);
+    mostrarFeedback('Erro ao preparar pedido. Tente novamente.');
+  }
+}
 
 function salvarCarrinhoNoStorage() {
   localStorage.setItem('carrinho_lie', JSON.stringify(carrinho));
