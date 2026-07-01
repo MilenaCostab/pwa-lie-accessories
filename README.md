@@ -29,6 +29,7 @@ Construído com HTML5, CSS3 e JavaScript puro, sem frameworks, integrado à loja
 
 ## 🗂️ Estrutura do Projeto
 
+```
 pwa-lie-accessories/
 ├── index.html          # Shell principal do app
 ├── manifest.json       # Configurações do PWA
@@ -39,10 +40,9 @@ pwa-lie-accessories/
 ├── js/
 │   └── app.js          # Lógica principal e integração com API
 └── icons/
-├── icon-192.png    # Ícone do app (tela inicial)
-└── icon-512.png    # Ícone splash screen
-
----
+    ├── icon-192.png    # Ícone do app (tela inicial)
+    └── icon-512.png    # Ícone splash screen
+```
 
 ## ⚙️ Tecnologias Utilizadas
 
